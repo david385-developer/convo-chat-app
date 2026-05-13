@@ -1,6 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const helmet = require('helmet');
+const compression = require('compression');
+const rateLimit = require('express-rate-limit');
+
 const authRoutes = require('./routes/authRoutes');
 const roomRoutes = require('./routes/roomRoutes');
 const messageRoutes = require('./routes/messageRoutes');
@@ -13,11 +17,24 @@ const errorHandler = require('./middleware/errorHandler');
 
 /**
  * EXPRESS APPLICATION CONFIGURATION
- * Orchestrates middleware and route distribution.
  */
 const app = express();
 
-// 1. Core Middleware
+// 1. Production Hardening Middleware
+app.use(helmet({
+  contentSecurityPolicy: false, // Set to false if you have trouble with CSP in development
+  crossOriginResourcePolicy: false
+}));
+app.use(compression());
+
+// 2. Rate Limiting (Prevents Brute Force)
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: { success: false, error: 'Too many requests, please try again later.' }
+});
+
+// 3. Core Middleware
 const allowedOrigins = [
   process.env.CLIENT_URL,
   'http://127.0.0.1:5173',
@@ -29,7 +46,6 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow if no origin (like mobile apps or curl) or if in allowed list
     if (!origin || allowedOrigins.includes(origin) || origin.includes('localhost') || origin.includes('127.0.0.1')) {
       callback(null, true);
     } else {
@@ -41,11 +57,11 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 2. Static Assets
+// 4. Static Assets
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// 3. API Routes
-app.use('/api/auth', authRoutes);
+// 5. API Routes
+app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/rooms', roomRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/conversations', conversationRoutes);
@@ -55,12 +71,24 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/preview', previewRoutes);
 app.use('/api', require('./routes/debugRoutes'));
 
-// 4. Unknown Route Handler
+// 6. Serve Frontend (Production Mode)
+if (process.env.NODE_ENV === 'production') {
+  const clientPath = path.join(__dirname, '../client/dist');
+  app.use(express.static(clientPath));
+  
+  app.get('*', (req, res) => {
+    if (!req.path.startsWith('/api') && !req.path.startsWith('/uploads')) {
+      res.sendFile(path.join(clientPath, 'index.html'));
+    }
+  });
+}
+
+// 7. Unknown Route Handler
 app.use('/api/*', (req, res) => {
   res.status(404).json({ success: false, error: 'API endpoint not found' });
 });
 
-// 5. Global Error Handling
+// 8. Global Error Handling
 app.use(errorHandler);
 
 module.exports = app;
