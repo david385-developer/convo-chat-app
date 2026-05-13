@@ -1,0 +1,22 @@
+/* Responsive Breakpoints */
+/* Desktop: >= 1024px */
+/* Tablet: 768px - 1023px */
+/* Mobile: < 768px */
+
+@media (max-width: 1023px) {
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .tablet-mobile-only {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .tablet-only {
+    display: none !important;
+  }
+}

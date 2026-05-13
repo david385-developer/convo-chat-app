@@ -1,0 +1,15 @@
+.mention-highlight {
+  color: var(--accent-mention);
+  font-weight: 600;
+  background: rgba(255, 217, 61, 0.1);
+  padding: 1px 4px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  user-select: none;
+}
+
+.mention-highlight:hover {
+  background: rgba(255, 217, 61, 0.2);
+  text-decoration: underline;
+}

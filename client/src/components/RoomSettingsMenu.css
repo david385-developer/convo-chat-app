@@ -1,0 +1,138 @@
+.settings-menu-wrapper {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 200;
+  animation: fadeDown 0.15s var(--ease-out);
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.settings-menu {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  min-width: 210px;
+  padding: 6px;
+  overflow: hidden;
+}
+
+.settings-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all 0.1s ease;
+  text-align: left;
+}
+
+.settings-menu-item:hover {
+  background: var(--bg-hover);
+}
+
+.settings-menu-item--danger {
+  color: var(--accent-warning);
+}
+
+.settings-menu-item--danger:hover {
+  background: rgba(255, 107, 107, 0.1);
+}
+
+.menu-icon {
+  font-size: 0.95rem;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.menu-label {
+  flex: 1;
+}
+
+.menu-copied {
+  font-size: 0.72rem;
+  color: var(--accent-secondary);
+  font-weight: 700;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.settings-menu-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 6px 8px;
+}
+
+/* Leave confirmation */
+.settings-leave-confirm {
+  padding: 10px 12px;
+}
+
+.leave-confirm-text {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.leave-confirm-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.leave-cancel-btn {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.leave-cancel-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.leave-confirm-btn {
+  flex: 1;
+  padding: 6px;
+  border: none;
+  background: var(--accent-warning);
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.leave-confirm-btn:hover {
+  background: #e55555;
+  transform: translateY(-1px);
+}

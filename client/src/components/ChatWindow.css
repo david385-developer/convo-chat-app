@@ -1,0 +1,34 @@
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+/* Error state */
+.chat-error {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-tertiary);
+  animation: fadeIn 0.3s var(--ease-out);
+}
+
+.chat-error-icon {
+  font-size: 2.5rem;
+  opacity: 0.6;
+}
+
+.chat-error-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

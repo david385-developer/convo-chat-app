@@ -1,0 +1,29 @@
+.room-settings-modal {
+  width: 440px !important;
+  max-width: 95vw;
+}
+
+.btn-danger-outline {
+  background: transparent;
+  border: 1px solid var(--accent-warning);
+  color: var(--accent-warning);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-danger-outline:hover:not(:disabled) {
+  background: rgba(255, 107, 107, 0.1);
+}
+
+.btn-danger-outline:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.footer-right {
+  display: flex;
+  gap: 12px;
+}

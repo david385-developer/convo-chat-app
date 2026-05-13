@@ -1,0 +1,108 @@
+.markdown-content {
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: inherit;
+}
+
+.markdown-content p {
+  margin: 0 0 12px 0;
+}
+
+.markdown-content p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-content h1, 
+.markdown-content h2, 
+.markdown-content h3 {
+  margin: 16px 0 8px 0;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.markdown-content h1 { font-size: 1.4rem; }
+.markdown-content h2 { font-size: 1.2rem; }
+.markdown-content h3 { font-size: 1.1rem; }
+
+.markdown-content code {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+  border-radius: 4px;
+}
+
+.inline-code {
+  background: rgba(108, 99, 255, 0.15);
+  color: var(--accent-primary);
+  padding: 2px 6px;
+  border: 1px solid rgba(108, 99, 255, 0.2);
+}
+
+.block-code {
+  display: block;
+  background: var(--bg-tertiary);
+  padding: 12px;
+  border: 1px solid var(--border);
+  margin: 12px 0;
+  overflow-x: auto;
+  color: var(--text-secondary);
+}
+
+.markdown-content ul, 
+.markdown-content ol {
+  margin: 8px 0 12px 20px;
+}
+
+.markdown-content li {
+  margin-bottom: 4px;
+}
+
+.markdown-content blockquote {
+  margin: 12px 0;
+  padding: 4px 16px;
+  border-left: 4px solid var(--accent-primary);
+  background: rgba(108, 99, 255, 0.05);
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.markdown-content a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px dashed transparent;
+  transition: all 0.2s ease;
+}
+
+.markdown-content a:hover {
+  border-bottom-color: var(--accent-primary);
+}
+
+.markdown-content img.md-image {
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+  margin: 8px 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.table-container {
+  overflow-x: auto;
+  margin: 12px 0;
+}
+
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.markdown-content th, 
+.markdown-content td {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.markdown-content th {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}

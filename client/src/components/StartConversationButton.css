@@ -1,0 +1,338 @@
+.start-conversation-wrapper {
+  position: relative;
+}
+
+/* Sidebar list item style */
+.sidebar-new-message-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--accent-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0px;
+  margin-bottom: 16px;
+}
+
+.sidebar-new-message-btn:hover {
+  background: rgba(108, 99, 255, 0.08);
+  border-color: var(--accent-primary);
+}
+
+.new-msg-icon {
+  font-size: 0.9rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* Icon button style */
+.btn-icon-sm {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 1.1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+  line-height: 1;
+}
+
+.btn-icon-sm:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Dropdown container */
+.dm-dropdown {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  width: 280px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  max-height: 380px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: dmDropdownEnter 0.2s var(--ease-out);
+  z-index: 200;
+}
+
+@keyframes dmDropdownEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dropdown header */
+.dm-dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.dm-dropdown-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.dm-dropdown-close {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--text-tertiary);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.15s ease;
+}
+
+.dm-dropdown-close:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Search inside dropdown */
+.dm-dropdown-search {
+  position: relative;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.dm-search-icon {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8rem;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.dm-dropdown-search input {
+  width: 100%;
+  padding: 8px 30px 8px 32px;
+  background: var(--bg-tertiary);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.dm-dropdown-search input:focus {
+  border-color: var(--accent-primary);
+}
+
+.dm-dropdown-search input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.dm-search-clear {
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.55rem;
+  transition: all 0.15s ease;
+}
+
+.dm-search-clear:hover {
+  background: var(--accent-warning);
+  color: white;
+}
+
+/* User list */
+.dm-dropdown-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.dm-dropdown-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.dm-dropdown-list::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.dm-user-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+
+.dm-user-item:hover {
+  background: var(--bg-hover);
+}
+
+/* User avatar in dropdown */
+.dm-user-avatar {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.dm-user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dm-status-dot {
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--bg-secondary);
+}
+
+.dm-status-dot--online {
+  background: var(--accent-secondary);
+  box-shadow: 0 0 4px rgba(0, 212, 170, 0.4);
+}
+
+.dm-status-dot--offline {
+  background: var(--text-tertiary);
+}
+
+/* User info */
+.dm-user-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.dm-user-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dm-user-status {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+}
+
+.dm-active-badge {
+  font-size: 0.65rem;
+  color: var(--accent-secondary);
+  font-weight: 600;
+  flex-shrink: 0;
+  padding: 2px 6px;
+  background: rgba(0, 212, 170, 0.1);
+  border-radius: var(--radius-full);
+}
+
+/* Loading and empty states */
+.dm-dropdown-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px 16px;
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+}
+
+.dm-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.dm-dropdown-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 28px 16px;
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.dm-empty-icon {
+  font-size: 1.8rem;
+  opacity: 0.5;
+}
+
+/* Responsive: dropdown full width on mobile */
+@media (max-width: 767px) {
+  .dm-dropdown {
+    width: calc(100vw - 32px);
+    left: -8px;
+  }
+}

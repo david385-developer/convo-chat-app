@@ -1,0 +1,9 @@
+node_modules/
+.env
+server/database/*.db
+client/build/
+uploads/*
+/public/uploads
+!uploads/.gitkeep
+coverage/
+.DS_Store
