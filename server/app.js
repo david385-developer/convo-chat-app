@@ -71,24 +71,12 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/preview', previewRoutes);
 app.use('/api', require('./routes/debugRoutes'));
 
-// 6. Serve Frontend (Production Mode)
-if (process.env.NODE_ENV === 'production') {
-  const clientPath = path.join(__dirname, '../client/dist');
-  app.use(express.static(clientPath));
-  
-  app.get('*', (req, res) => {
-    if (!req.path.startsWith('/api') && !req.path.startsWith('/uploads')) {
-      res.sendFile(path.join(clientPath, 'index.html'));
-    }
-  });
-}
-
-// 7. Unknown Route Handler
+// 6. Unknown Route Handler
 app.use('/api/*', (req, res) => {
   res.status(404).json({ success: false, error: 'API endpoint not found' });
 });
 
-// 8. Global Error Handling
+// 7. Global Error Handling
 app.use(errorHandler);
 
 module.exports = app;
