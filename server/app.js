@@ -37,18 +37,31 @@ const authLimiter = rateLimit({
 // 3. Core Middleware
 const allowedOrigins = [
   process.env.CLIENT_URL,
+  'https://convo-chat-app-flame.vercel.app',
   'http://127.0.0.1:5173',
   'http://127.0.0.1:5174',
   'http://localhost:5173',
   'http://localhost:5174',
   'http://localhost:3000'
-].filter(Boolean);
+].filter(Boolean).map(url => url.replace(/\/$/, '')); // Remove trailing slashes
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin) || origin.includes('localhost') || origin.includes('127.0.0.1')) {
+    // 1. Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+
+    const normalizedOrigin = origin.replace(/\/$/, '');
+    
+    // 2. Check if the normalized origin is allowed
+    const isAllowed = allowedOrigins.includes(normalizedOrigin) || 
+                      normalizedOrigin.includes('localhost') || 
+                      normalizedOrigin.includes('127.0.0.1') ||
+                      normalizedOrigin.endsWith('vercel.app'); // Flexible for Vercel previews
+
+    if (isAllowed) {
       callback(null, true);
     } else {
+      console.warn(`[CORS] Blocked request from origin: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
