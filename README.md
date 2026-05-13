@@ -1,86 +1,122 @@
-# Convo — Real-time Chat Platform
+# Convo — Real-time Chat Platform 🚀
 
-Convo is a production-grade, high-performance real-time communication platform built with the MERN stack (replacing Mongo with SQLite for extreme performance and simplicity).
+Convo is a high-performance, real-time communication platform built with a focus on speed, security, and premium user experience. It leverages the **"Midnight Pulse"** design system and a robust relational database architecture.
 
-## 🚀 Key Features
-
-- **Real-time Messaging**: Powered by Socket.io with sub-12ms delivery.
-- **Midnight Pulse Design**: A custom, premium dark-mode UI built from scratch with Vanilla CSS.
-- **Presence & Status**: Real-time online/offline tracking and typing indicators.
-- **Relational Integrity**: Normalized SQLite schema with better-sqlite3 for synchronous DB operations.
-- **Smart Notifications**: Mention-based alerting and unread count synchronization.
-- **Markdown Support**: Full Github-flavored markdown rendering in chat bubbles.
-- **Responsive Layout**: Pixel-perfect experience across Desktop, Tablet, and Mobile.
+---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React 18, Context API, React Router v6, Vanilla CSS.
-- **Backend**: Node.js, Express, Socket.io.
-- **Database**: SQLite (via better-sqlite3).
-- **Authentication**: JWT (JSON Web Tokens) & bcryptjs.
-- **File Handling**: Multer for avatar and media uploads.
+- **Frontend**: React 18 (Vite), Context API for state, Framer Motion for animations, Vanilla CSS.
+- **Backend**: Node.js, Express, Socket.io (WebSocket) for real-time delivery.
+- **Database**: SQLite via `better-sqlite3` (WAL mode enabled for high-concurrency).
+- **Security**: JWT Authentication, Bcrypt password hashing, Helmet security headers, CORS protection.
+- **Testing**: Jest & Supertest for unit and integration testing.
 
-## 📦 Project Structure
+---
 
-```text
-convo/
-├── client/              # React Frontend
-│   ├── src/
-│   │   ├── components/  # Reusable UI units
-│   │   ├── context/     # Global state management
-│   │   ├── hooks/       # Custom React logic
-│   │   ├── styles/      # Design system (Midnight Pulse)
-│   │   └── services/    # API & Socket factories
-├── server/              # Node.js Backend
-│   ├── controllers/     # Business logic
-│   ├── database/        # SQLite init & migrations
-│   ├── middleware/      # Auth & Validation
-│   ├── models/          # Data Access Layer
-│   ├── routes/          # API Endpoints
-│   └── sockets/         # Modular Real-time handlers
-└── uploads/             # Persistent media storage
-```
+## 🏗️ Architecture Overview
 
-## 🚦 Quick Start
+The application follows a modular **Service-Controller-Model** pattern:
+
+### Backend
+- **Models**: Handles direct SQLite interaction with parameterized queries.
+- **Controllers**: Contains business logic (e.g., room creation, message processing).
+- **Sockets**: Modularized handlers for presence, messaging, and notifications.
+- **Migrations**: Automated SQL-based schema evolution system.
+
+### Frontend
+- **Context Providers**: Centralized state for Auth, Chat, Sockets, and Notifications.
+- **Service Layer**: Factory-based API and Socket services for consistent communication.
+- **Responsive Components**: Tailored layouts for Desktop and Mobile (Bottom Sheets).
+
+---
+
+## 📂 Database Schema
+
+The database is built on a highly normalized relational schema:
+
+| Table | Description | Key Fields |
+|-------|-------------|------------|
+| **`users`** | Core user profiles and presence status. | `id`, `username`, `email`, `password_hash`, `status` |
+| **`rooms`** | Public and private group chat channels. | `id`, `name`, `description`, `created_by` |
+| **`room_members`** | Join table for room participants and roles. | `room_id`, `user_id`, `role` |
+| **`conversations`** | Private 1-on-1 messaging tunnels. | `id`, `user1_id`, `user2_id` |
+| **`messages`** | Unified message storage for rooms and DMs. | `id`, `sender_id`, `content`, `room_id`, `conversation_id` |
+| **`notifications`** | Real-time alert tracking for mentions and DMs. | `id`, `user_id`, `type`, `is_read` |
+
+---
+
+## 🚀 Getting Started
 
 ### 1. Prerequisites
-- Node.js >= 18
-- npm >= 9
+- **Node.js** (v18 or higher)
+- **npm** (v9 or higher)
 
 ### 2. Installation
 ```bash
-# Install root (backend) dependencies
+# Install backend dependencies
+cd server
 npm install
 
 # Install frontend dependencies
-cd client
+cd ../client
 npm install
 ```
 
-### 3. Environment Setup
-Create a `.env` file in the root directory:
+### 3. Environment Configuration
+Create a `.env` file in the `server` directory:
 ```env
 PORT=5000
-JWT_SECRET=convo_secret_2024
-DATABASE_PATH=./server/database/convo.db
-CLIENT_URL=http://localhost:3000
+JWT_SECRET=your_secure_secret_here
+DATABASE_PATH=./database/convo.db
+CLIENT_URL=http://localhost:5173
+NODE_ENV=development
 ```
 
-### 4. Running Locally
+Create a `.env` file in the `client` directory:
+```env
+VITE_API_URL=http://localhost:5000/api
+VITE_SOCKET_URL=http://localhost:5000
+```
+
+### 4. Database Initialization
+You don't need to manually create the database. The system uses an **Automatic Migration Engine**:
+- When you start the server, it checks the `server/database/migrations` directory.
+- It automatically creates the SQLite file and runs all pending `.sql` files in order.
+
+### 5. Running the App
 ```bash
-# Start backend (from root)
+# Run Backend (from /server)
 npm run dev
 
-# Start frontend (from client/)
-npm start
+# Run Frontend (from /client)
+npm run dev
 ```
 
-## 🔒 Security
+---
 
-- **SQL Injection**: All queries are parameterized using `better-sqlite3`.
-- **XSS Protection**: React's automatic escaping + input sanitization.
-- **Auth**: JWT verification on every protected route and socket handshake.
-- **Password Hashing**: Industry-standard bcryptjs with 10 salt rounds.
+## 🧪 Testing
+The project includes a comprehensive test suite using **Jest** and an **In-Memory SQLite** database for isolation.
+
+```bash
+cd server
+npm test
+```
+*Tests cover: User registration, Login security, Room creation, and Real-time socket broadcasting.*
 
 ---
-Built with 💜 for Convo.
+
+## 🌐 Production Deployment
+
+### Backend (Render)
+1. Set **Start Command**: `npm start`
+2. Set **Build Command**: `npm install`
+3. Add environment variables: `JWT_SECRET`, `CLIENT_URL` (your Vercel link), `NODE_ENV=production`.
+
+### Frontend (Vercel)
+1. Set **Framework Preset**: `Vite`
+2. Add environment variables: `VITE_API_URL`, `VITE_SOCKET_URL` (your Render links).
+3. The project includes a `vercel.json` to handle SPA routing correctly.
+
+---
+Built by **Convo Dev Team**. Professional, Fast, Secure.
