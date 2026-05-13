@@ -52,7 +52,10 @@ const LoginPage = () => {
               <input 
                 type="email" 
                 value={email} 
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (error) setError('');
+                }}
                 placeholder="you@example.com"
                 required
               />
@@ -63,7 +66,10 @@ const LoginPage = () => {
               <input 
                 type="password" 
                 value={password} 
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (error) setError('');
+                }}
                 placeholder="••••••••"
                 required
               />

@@ -30,10 +30,15 @@ const request = async (endpoint, options = {}) => {
     const data = await response.json();
 
     if (!response.ok) {
-      if (response.status === 401) {
+      // Avoid redirecting to login if the error is already from an auth attempt
+      const isAuthRoute = endpoint.includes('/auth/login') || endpoint.includes('/auth/register');
+      
+      if (response.status === 401 && !isAuthRoute) {
         localStorage.removeItem('convo_token');
         window.location.href = '/login';
+        return;
       }
+      
       const errorMessage = data.error || (data.errors && data.errors[0].msg) || 'Something went wrong';
       throw new Error(errorMessage);
     }
