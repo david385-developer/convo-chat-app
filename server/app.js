@@ -20,6 +20,9 @@ const errorHandler = require('./middleware/errorHandler');
  */
 const app = express();
 
+// Trust proxy for rate limiting (needed when running behind Render, Vercel, etc.)
+app.set('trust proxy', 1);
+
 // 1. Production Hardening Middleware
 app.use(helmet({
   contentSecurityPolicy: false, // Set to false if you have trouble with CSP in development
