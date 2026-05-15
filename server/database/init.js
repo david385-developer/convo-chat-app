@@ -50,15 +50,30 @@ function runMigrations() {
   const migrationsDir = path.join(__dirname, 'migrations');
   if (!fs.existsSync(migrationsDir)) return;
 
-  const migrationFiles = fs.readdirSync(migrationsDir).sort();
+  // 1. Create tracking table if it doesn't exist
+  db.prepare(`
+    CREATE TABLE IF NOT EXISTS _migrations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT UNIQUE NOT NULL,
+      executed_at TEXT DEFAULT (datetime('now'))
+    )
+  `).run();
 
-  console.log('--- EXECUTING DATABASE MIGRATIONS ---');
+  const migrationFiles = fs.readdirSync(migrationsDir).sort();
+  const executedMigrations = db.prepare('SELECT name FROM _migrations').all().map(m => m.name);
+
+  console.log('--- SYNCING DATABASE SCHEMA ---');
   
   const transaction = db.transaction(() => {
     migrationFiles.forEach(file => {
-      console.log(`Migration: ${file}`);
-      const sql = fs.readFileSync(path.join(migrationsDir, file), 'utf8');
-      db.exec(sql);
+      if (!executedMigrations.includes(file)) {
+        console.log(`Applying Migration: ${file}`);
+        const sql = fs.readFileSync(path.join(migrationsDir, file), 'utf8');
+        db.exec(sql);
+        db.prepare('INSERT INTO _migrations (name) VALUES (?)').run(file);
+      } else {
+        // Skip already applied migrations
+      }
     });
 
     // Ensure 'system' user exists for foreign key constraints
@@ -82,7 +97,7 @@ function runMigrations() {
   });
 
   transaction();
-  console.log('--- DATABASE SYNCED ---');
+  console.log('--- DATABASE READY ---');
 };
 
 module.exports = { db, runMigrations };
